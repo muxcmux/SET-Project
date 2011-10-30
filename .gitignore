@@ -2,6 +2,6 @@
 ehthumbs.db
 Icon?
 Thumbs.db
-/tmp/*
+tmp
 /Config/database.php
 /webroot/index.php
