@@ -31,4 +31,9 @@ App::uses('Helper', 'View');
  * @package       app.View.Helper
  */
 class AppHelper extends Helper {
+  
+  public function logged_in() {
+    return SessionComponent::read('Auth.User.idUser');
+  }
+  
 }

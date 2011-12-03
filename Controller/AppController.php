@@ -31,4 +31,23 @@ App::uses('Controller', 'Controller');
  * @package       app.Controller
  */
 class AppController extends Controller {
+  
+  public $helpers = array('Html', 'Form', 'Session');
+  
+  public $components = array(
+      'Session',
+      'Auth' => array(
+          'loginAction' => array(
+              'controller' => 'people',
+              'action' => 'login'
+          ),
+          'authError' => 'Please login first',
+          'authenticate' => array(
+              'Form' => array(
+                'userModel' => 'Person'
+              )
+          )
+      )
+  );
+  
 }

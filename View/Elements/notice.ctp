@@ -1,0 +1,1 @@
+<div id="flashMessage" class="notice"><?php echo $message; ?></div>

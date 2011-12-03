@@ -1,111 +1,28 @@
 
-<iframe src="http://cakephp.org/bake-banner" width="830" height="160" style="overflow:hidden; border:none;">
-	<p>For updates and important announcements, visit http://cakefest.org</p>
-</iframe>
-<h2>Sweet, "SET" got Baked by CakePHP!</h2>
+<div id="slogan">
+  <span>TalentSeekr</span> is a tool to help agencies <?php echo $this->Html->link('discover', array('controller' => 'search', 'action' => 'index')); ?> the most talented young professionals in UK and help them kick-start their career.
+</div>
 
-<?php
-App::uses('Debugger', 'Utility');
-if (Configure::read('debug') > 0):
-	Debugger::checkSecurityKeys();
-endif;
-?>
-<p>
-<?php
-	if (version_compare(PHP_VERSION, '5.2.6', '>=')):
-		echo '<span class="notice success">';
-			echo __d('cake_dev', 'Your version of PHP is 5.2.6 or higher.');
-		echo '</span>';
-	else:
-		echo '<span class="notice">';
-			echo __d('cake_dev', 'Your version of PHP is too low. You need PHP 5.2.6 or higher to use CakePHP.');
-		echo '</span>';
-	endif;
-?>
-</p>
-<p>
-<?php
-	if (is_writable(TMP)):
-		echo '<span class="notice success">';
-			echo __d('cake_dev', 'Your tmp directory is writable.');
-		echo '</span>';
-	else:
-		echo '<span class="notice">';
-			echo __d('cake_dev', 'Your tmp directory is NOT writable.');
-		echo '</span>';
-	endif;
-?>
-</p>
-<p>
-<?php
-	$settings = Cache::settings();
-	if (!empty($settings)):
-		echo '<span class="notice success">';
-				echo __d('cake_dev', 'The %s is being used for caching. To change the config edit APP/Config/core.php ', '<em>'. $settings['engine'] . 'Engine</em>');
-		echo '</span>';
-	else:
-		echo '<span class="notice">';
-			echo __d('cake_dev', 'Your cache is NOT working. Please check the settings in APP/Config/core.php');
-		echo '</span>';
-	endif;
-?>
-</p>
-<p>
-<?php
-	$filePresent = null;
-	if (file_exists(APP . 'Config' . DS . 'database.php')):
-		echo '<span class="notice success">';
-			echo __d('cake_dev', 'Your database configuration file is present.');
-			$filePresent = true;
-		echo '</span>';
-	else:
-		echo '<span class="notice">';
-			echo __d('cake_dev', 'Your database configuration file is NOT present.');
-			echo '<br/>';
-			echo __d('cake_dev', 'Rename APP/Config/database.php.default to APP/Config/database.php');
-		echo '</span>';
-	endif;
-?>
-</p>
-<?php
-if (isset($filePresent)):
-	App::uses('ConnectionManager', 'Model');
-	try {
-		$connected = ConnectionManager::getDataSource('default');
-	} catch (Exception $e) {
-		$connected = false;
-	}
-?>
-<p>
-	<?php
-		if ($connected && $connected->isConnected()):
-			echo '<span class="notice success">';
-	 			echo __d('cake_dev', 'Cake is able to connect to the database.');
-			echo '</span>';
-		else:
-			echo '<span class="notice">';
-				echo __d('cake_dev', 'Cake is NOT able to connect to the database.');
-			echo '</span>';
-		endif;
-	?>
-</p>
-<?php endif;?>
-<?php
-	App::uses('Validation', 'Utility');
-	if (!Validation::alphaNumeric('cakephp')) {
-		echo '<p><span class="notice">';
-		__d('cake_dev', 'PCRE has not been compiled with Unicode support.');
-		echo '<br/>';
-		__d('cake_dev', 'Recompile PCRE with Unicode support by adding <code>--enable-unicode-properties</code> when configuring');
-		echo '</span></p>';
-	}
-?>
-<h3><?php echo __d('cake_dev', 'Editing this Page'); ?></h3>
-<p>
-<?php
-	echo __d('cake_dev', 'To change the content of this page, edit: %s
-		To change its layout, edit: %s
-		You can also add some CSS styles for your pages at: %s',
-		APP . 'View' . DS . 'Pages' . DS . 'home.ctp.<br />',  APP . 'View' . DS . 'Layouts' . DS . 'default.ctp.<br />', APP . 'webroot' . DS . 'css');
-?>
-</p>
+<h3>Check out those amazing features!</h3>
+
+<div class="fp-box search">
+  <strong>Extensive Search Tools</strong><br>
+  Search for applicants, using our state of the art search engine. Refine you results by education levels, years of experience, language skills or even by university marks!
+</div>
+
+<div class="fp-box comm">
+  <strong>Easy Communication</strong><br>
+  Find young professionals or students and send them e-mails directly through TalentSeekr. Search for the most suitable candidates and contact them with your proposal.
+</div>
+
+<div class="fp-box db">
+  <strong>Huge Database</strong><br>
+  Search amongst more than 1,000,000 applicants in almost every industry. We've got everything covered from information system architects to cancer research students.
+</div>
+
+<div class="fp-box quality">
+  <strong>Information quality</strong><br>
+  We did not gather our data by scraping cheap job sites. All information on TalentSeekr is proven to be quality stuff only. Welcome to the site where only the most talented click!
+</div>
+
+<div class="clear"></div>

@@ -28,9 +28,40 @@ class Person extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'title';
+	public $displayField = 'username';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
+	
+	public $validate = array(
+	  'username' => array(
+	    'email' => array(
+        'rule'     => 'email',
+        'required' => true,
+        'message'  => 'You must supply a valid e-mail'
+      ),
+      'unique'     => array(
+        'rule'     => 'isUnique',
+        'required' => true,
+        'message' => 'This e-mail has already been taken.'
+      )
+	  ),
+	  'password' => array(
+	    'long' => array(
+	      'rule' => array('minLength', 6),
+	      'required' => true,
+	      'message' => 'Minimum password length is 6 characters'
+	    )
+	  ),
+	  'forename1' => array(
+	    'ne' => array(
+	      'rule' => 'notEmpty',
+	      'required' => true,
+	      'message' => 'What is your first name?'
+	    )
+	  )
+	);
+	
+	
 
 /**
  * belongsTo associations

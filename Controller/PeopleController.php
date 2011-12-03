@@ -6,25 +6,52 @@ App::uses('AppController', 'Controller');
  * @property Person $Person
  */
 class PeopleController extends AppController {
-
-
-/**
- * index method
- *
- * @return void
- */
-	public function index() {
-		$this->Person->recursive = 0;
-		$this->set('people', $this->paginate());
+  
+  public function beforeFilter() {
+    parent::beforeFilter();
+    $this->Auth->allow(array('register'));
+  }
+  
+  public function register() {
+		if ($this->request->is('post')) {
+			$this->Person->create();
+			$this->Person->set($this->request->data);
+			if ($this->Person->validates()) {
+			  if ($this->request->data['Person']['password'] != $this->request->data['Person']['confirm_pass']) {
+  			  $this->Session->setFlash(__('Passwords do not match.'), 'error');
+  			  return;
+  			}
+  			$this->Person->data['Person']['password'] = $this->Auth->password($this->request->data['Person']['password']);
+  			if ($this->Person->save()) {
+  				$this->Auth->login();
+  				$this->Session->setFlash("{$this->Session->read('Auth.User.forename1')}, welcome to TalentSeekr! <a href='/profile'>Go to my profile.</a>", 'success');
+          $this->redirect('/');
+  			}
+			} else {
+				$this->Session->setFlash(__('There was a problem with your registration. Please try again.'), 'error');
+			}
+		}
 	}
+  
+  public function logout() {
+    $this->Auth->logout();
+    $this->Session->setFlash('Bye Bye', 'success');
+    $this->redirect('/');
+  }
+  
+  public function login() {
+      if ($this->request->is('post')) {
+          if ($this->Auth->login()) {
+      				$this->Session->setFlash("Welcome back {$this->Session->read('Auth.User.forename1')}. <a href='/profile'>Go to my profile.</a>", 'success');
+              return $this->redirect($this->Auth->redirect());
+          } else {
+              $this->Session->setFlash(__('Username or password is incorrect'), 'default', array('class' => 'error-message'), 'auth');
+          }
+      }
+  }
 
-/**
- * view method
- *
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
+	public function view() {
+	  $id = $this->Session->read('Auth.User.idUser');
 		$this->Person->id = $id;
 		if (!$this->Person->exists()) {
 			throw new NotFoundException(__('Invalid person'));
@@ -32,32 +59,8 @@ class PeopleController extends AppController {
 		$this->set('person', $this->Person->read(null, $id));
 	}
 
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Person->create();
-			if ($this->Person->save($this->request->data)) {
-				$this->Session->setFlash(__('The person has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The person could not be saved. Please, try again.'));
-			}
-		}
-		$educationLevels = $this->Person->EducationLevel->find('list');
-		$this->set(compact('educationLevels'));
-	}
-
-/**
- * edit method
- *
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
+	public function edit() {
+	  $id = $this->Session->read('Auth.User.idUser');
 		$this->Person->id = $id;
 		if (!$this->Person->exists()) {
 			throw new NotFoundException(__('Invalid person'));
@@ -76,13 +79,8 @@ class PeopleController extends AppController {
 		$this->set(compact('educationLevels'));
 	}
 
-/**
- * delete method
- *
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
+	public function delete() {
+	  $id = $this->Session->read('Auth.User.idUser');
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}

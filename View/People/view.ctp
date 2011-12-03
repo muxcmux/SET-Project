@@ -1,34 +1,14 @@
 <div class="people view">
-<h2><?php  echo __('Person');?></h2>
+<h3>My Profile</h3>
 	<dl>
-		<dt><?php echo __('IdUser'); ?></dt>
-		<dd>
-			<?php echo h($person['Person']['idUser']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Username'); ?></dt>
-		<dd>
-			<?php echo h($person['Person']['username']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Password'); ?></dt>
-		<dd>
-			<?php echo h($person['Person']['password']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Title'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['title']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Forename1'); ?></dt>
+		<dt><?php echo __('Name'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['forename1']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Forename2'); ?></dt>
-		<dd>
-			<?php echo h($person['Person']['forename2']); ?>
+			<?php if ($person['Person']['forename1']) echo h($person['Person']['forename1']); ?> <?php if ($person['Person']['forename2']) echo h($person['Person']['forename2']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Surname'); ?></dt>
@@ -36,12 +16,12 @@
 			<?php echo h($person['Person']['surname']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('AddressLine1'); ?></dt>
+		<dt><?php echo __('Address line 1'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['addressLine1']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('AddressLine2'); ?></dt>
+		<dt><?php echo __('Address line 2'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['addressLine2']); ?>
 			&nbsp;
@@ -56,12 +36,12 @@
 			<?php echo h($person['Person']['postcode']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('SecondEmail'); ?></dt>
+		<dt><?php echo __('Secondary email'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['secondEmail']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('PersonalUrl'); ?></dt>
+		<dt><?php echo __('Personal website'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['personalUrl']); ?>
 			&nbsp;
@@ -71,22 +51,22 @@
 			<?php echo h($person['Person']['photo']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Female'); ?></dt>
+		<dt><?php echo __('Gender'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['female']); ?>
+			<?php echo ($person['Person']['female']) ? 'Female' : 'Male' ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('PostcodeStart'); ?></dt>
+		<dt><?php echo __('Postcode start'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['postcodeStart']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('AuthorityToWorkStatement'); ?></dt>
+		<dt><?php echo __('Authority To Work Statement'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['authorityToWorkStatement']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('ContactPreference'); ?></dt>
+		<dt><?php echo __('Contact preference'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['contactPreference']); ?>
 			&nbsp;
@@ -96,37 +76,37 @@
 			<?php echo $this->Html->link($person['EducationLevel'][''], array('controller' => 'education_levels', 'action' => 'view', $person['EducationLevel']['id'])); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('NoOfGcses'); ?></dt>
+		<dt><?php echo __('No Of GCSEs'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['noOfGcses']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('GcseEnglishGrade'); ?></dt>
+		<dt><?php echo __('GCSE English Grade'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['gcseEnglishGrade']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('GcseMathsGrade'); ?></dt>
+		<dt><?php echo __('GCSE Maths Grade'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['gcseMathsGrade']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('FiveOrMoreGcses'); ?></dt>
+		<dt><?php echo __('Five Or More GCSEs'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['fiveOrMoreGcses']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('NoOfAlevels'); ?></dt>
+		<dt><?php echo __('No Of A levels'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['noOfAlevels']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('UcasPoints'); ?></dt>
+		<dt><?php echo __('UCAS Points'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['ucasPoints']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('StudentStatus'); ?></dt>
+		<dt><?php echo __('Student status'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['studentStatus']); ?>
 			&nbsp;
@@ -141,12 +121,12 @@
 			<?php echo h($person['Person']['landline']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Dob'); ?></dt>
+		<dt><?php echo __('Date of birth'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['dob']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('PenaltyPoints'); ?></dt>
+		<dt><?php echo __('Penalty Points'); ?></dt>
 		<dd>
 			<?php echo h($person['Person']['penaltyPoints']); ?>
 			&nbsp;

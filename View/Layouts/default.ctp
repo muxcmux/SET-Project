@@ -16,12 +16,12 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<?php echo $this->Html->charset(); ?>
+	<meta charset="utf-8">
 	<title>
-		<?php echo __('CakePHP: the rapid development php framework:'); ?>
+		<?php echo __('JobSeeker:'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
@@ -33,10 +33,26 @@
 	?>
 </head>
 <body>
+  <div id="header">
+		<a href="/" id="logo"></a>
+		<ul>
+      <li><a href="/">Home</a></li>
+      <li>|</li>
+      <li><a href="/search">Search</a></li>
+      <li>|</li>
+      <?php if ($this->Html->logged_in()) : ?>
+        <li>Welcome, <?php echo $this->Session->read('Auth.User.forename1'); ?></li>
+        <li><a href="/profile">My Profile</a></li>
+        <li><a href="/logout" class="red">[logout]</a></li>
+      <?php else : ?>
+        <li><a href="/login">Login</a></li>
+        <li>|</li>
+        <li><a href="/register" class="register">Create you profile!</a></li>        
+      <?php endif ?>
+		</ul>
+    <div class="clear"></div>
+	</div>
 	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework'), 'http://cakephp.org'); ?></h1>
-		</div>
 		<div id="content">
 
 			<?php echo $this->Session->flash(); ?>
