@@ -41,8 +41,8 @@ class ProfessionalQualificationsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->ProfessionalQualification->create();
 			if ($this->ProfessionalQualification->save($this->request->data)) {
-				$this->Session->setFlash(__('The professional qualification has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The professional qualification has been saved'), 'success');
+				$this->redirect('/');
 			} else {
 				$this->Session->setFlash(__('The professional qualification could not be saved. Please, try again.'));
 			}
@@ -65,8 +65,8 @@ class ProfessionalQualificationsController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->ProfessionalQualification->save($this->request->data)) {
-				$this->Session->setFlash(__('The professional qualification has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The professional qualification has been saved'), 'success');
+				$this->redirect('/');
 			} else {
 				$this->Session->setFlash(__('The professional qualification could not be saved. Please, try again.'));
 			}
@@ -93,8 +93,8 @@ class ProfessionalQualificationsController extends AppController {
 			throw new NotFoundException(__('Invalid professional qualification'));
 		}
 		if ($this->ProfessionalQualification->delete()) {
-			$this->Session->setFlash(__('Professional qualification deleted'));
-			$this->redirect(array('action'=>'index'));
+			$this->Session->setFlash(__('Professional qualification deleted'), 'success');
+			$this->redirect('/');
 		}
 		$this->Session->setFlash(__('Professional qualification was not deleted'));
 		$this->redirect(array('action' => 'index'));

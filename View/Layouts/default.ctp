@@ -42,7 +42,11 @@
       <li>|</li>
       <?php if ($this->Html->logged_in()) : ?>
         <li>Welcome, <?php echo $this->Session->read('Auth.User.forename1'); ?></li>
-        <li><a href="/profile">My Profile</a></li>
+        <?php if ($this->Session->read('Auth.User.role') == 'admin') : ?>
+          <li><a href="/dashboard">Dashboard</a></li>
+        <?php else: ?>
+          <li><a href="/profile">My Profile</a></li>
+        <?php endif; ?>
         <li><a href="/logout" class="red">[logout]</a></li>
       <?php else : ?>
         <li><a href="/login">Login</a></li>

@@ -41,8 +41,8 @@ class RefereesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Referee->create();
 			if ($this->Referee->save($this->request->data)) {
-				$this->Session->setFlash(__('The referee has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The referee has been saved'), 'success');
+				$this->redirect('/profile');
 			} else {
 				$this->Session->setFlash(__('The referee could not be saved. Please, try again.'));
 			}
@@ -64,8 +64,8 @@ class RefereesController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Referee->save($this->request->data)) {
-				$this->Session->setFlash(__('The referee has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The referee has been saved'), 'success');
+				$this->redirect('/profile');
 			} else {
 				$this->Session->setFlash(__('The referee could not be saved. Please, try again.'));
 			}
@@ -91,10 +91,10 @@ class RefereesController extends AppController {
 			throw new NotFoundException(__('Invalid referee'));
 		}
 		if ($this->Referee->delete()) {
-			$this->Session->setFlash(__('Referee deleted'));
-			$this->redirect(array('action'=>'index'));
+			$this->Session->setFlash(__('Referee deleted'), 'success');
+			$this->redirect('/profile');
 		}
 		$this->Session->setFlash(__('Referee was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect('/profile');
 	}
 }

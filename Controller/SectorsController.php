@@ -7,6 +7,13 @@ App::uses('AppController', 'Controller');
  */
 class SectorsController extends AppController {
 
+  public function beforeFilter() {
+    parent::beforeFilter();
+    if ($this->Session->read('Auth.User.role') != 'admin') {
+      $this->Session->setFlash('You are not authorized to access this resource');
+      $this->redirect('/');
+    }
+  }
 
 /**
  * index method

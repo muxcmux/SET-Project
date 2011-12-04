@@ -26,6 +26,16 @@ class Referee extends AppModel {
  *
  * @var array
  */
+ 
+ public $validate = array(
+   'permissionToStoreDetails' => array(
+     'allowedChoice' => array(
+                  'rule'    => array('inList', array('1')),
+                  'message' => 'You must permit us to store these details no our servers.'
+              )
+   )
+ );
+ 
 	public $belongsTo = array(
 		'Person' => array(
 			'className' => 'Person',

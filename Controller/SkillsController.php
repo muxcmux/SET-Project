@@ -41,8 +41,8 @@ class SkillsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Skill->create();
 			if ($this->Skill->save($this->request->data)) {
-				$this->Session->setFlash(__('The skill has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The skill has been saved'), 'success');
+				$this->redirect('/profile');
 			} else {
 				$this->Session->setFlash(__('The skill could not be saved. Please, try again.'));
 			}
@@ -64,7 +64,7 @@ class SkillsController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Skill->save($this->request->data)) {
-				$this->Session->setFlash(__('The skill has been saved'));
+				$this->Session->setFlash(__('The skill has been saved'), 'success');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The skill could not be saved. Please, try again.'));
@@ -91,10 +91,10 @@ class SkillsController extends AppController {
 			throw new NotFoundException(__('Invalid skill'));
 		}
 		if ($this->Skill->delete()) {
-			$this->Session->setFlash(__('Skill deleted'));
-			$this->redirect(array('action'=>'index'));
+			$this->Session->setFlash(__('Skill deleted'), 'success');
+			$this->redirect('/profile');
 		}
 		$this->Session->setFlash(__('Skill was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect('/profile');
 	}
 }

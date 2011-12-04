@@ -67,10 +67,10 @@ class PeopleController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Person->save($this->request->data)) {
-				$this->Session->setFlash(__('The person has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('Your profile has been updated!'), 'success');
+				$this->redirect('/profile');
 			} else {
-				$this->Session->setFlash(__('The person could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('We couldnt update your profile'), 'error');
 			}
 		} else {
 			$this->request->data = $this->Person->read(null, $id);
