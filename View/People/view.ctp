@@ -37,7 +37,10 @@ $its_me = ($person['Person']['idUser'] == $this->Session->read('Auth.User.idUser
 <?php else: ?>
   <h3><?=$person['Person']['forename1']?>'s profile</h3>
 <?php endif; ?>
-  
+<br>
+  <a class="register" target="_blank" href="/people/print_cv/<?=$person['Person']['idUser']?>">Print CV</a>
+  <br><br><br>
+  <div class="clear"></div>
 	<dl>
 		<dt><?php echo __('Title'); ?></dt>
 		<dd>

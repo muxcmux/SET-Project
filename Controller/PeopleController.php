@@ -9,7 +9,7 @@ class PeopleController extends AppController {
   
   public function beforeFilter() {
     parent::beforeFilter();
-    $this->Auth->allow(array('register', 'get_ohoto', 'view'));
+    $this->Auth->allow(array('register', 'get_ohoto', 'view', 'print'));
   }
   
   public function register() {
@@ -123,5 +123,32 @@ class PeopleController extends AppController {
     $this->Person->save($person);
     $this->redirect($this->referer());
   }
+  
+  
+
+
+
+
+
+
+
+
+
+  public function print_cv($id = null) {
+    $this->Person->id = $id;
+    if (!$this->Person->exists()) {
+			throw new NotFoundException(__('Invalid person'));
+		}
+		$person = $this->Person->read(null, $id);
+		$this->layout = 'print';
+		$this->set(compact('person'));
+  }
+  
+  
+  
+  
+  
+  
+  
 
 }
