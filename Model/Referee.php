@@ -37,7 +37,8 @@ class Referee extends AppModel {
    'title' => 'notEmpty',
    'forename' => 'notEmpty',
    'email' => 'email',
-   'email' => 'email'
+   'email' => 'email',
+   'referenceDoc' => 'validDocument'
  );
  
 	public $belongsTo = array(
@@ -49,4 +50,24 @@ class Referee extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	public function  validDocument($check) {
+	  $data = $check['referenceDoc'];
+	  $allowed_types = array(
+	    'image/jpeg',
+	  );
+	  if ($data['error']) {
+	    if ($data['size'] == 0) {
+	      $this->data['Referee']['referenceDoc'] = null;
+	      return true;
+	    }
+	    return 'There was an error uploading the document. Please try again.';
+	  } else if (!in_array($data['type'], $allowed_types)) {
+	    return 'Only PDF files are allowed';
+    } else {
+	    $this->data['Referee']['referenceDoc'] = file_get_contents($data['tmp_name']);
+	    return true;
+	  }
+	}
+	
 }

@@ -40,7 +40,11 @@ $referee = $this->data;
   		</dd>
   		<dt><?php echo __('ReferenceDoc'); ?></dt>
   		<dd>
-  			<?php echo h($referee['Referee']['referenceDoc']); ?>
+  		  <?php if ($referee['Referee']['referenceDoc']): ?>
+  		    <img src="/referees/get_document/<?=$referee['Referee']['idReferees']?>">
+  		  <?php else: ?>
+  		    N/A
+        <?php endif; ?>
   			&nbsp;
   		</dd>
   	</dl>

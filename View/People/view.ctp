@@ -82,7 +82,11 @@ $its_me = ($person['Person']['idUser'] == $this->Session->read('Auth.User.idUser
 		</dd>
 		<dt><?php echo __('Photo'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['photo']); ?>
+			<?php
+  			if ($person['Person']['photo']) {
+    		  echo "<img src='/people/get_photo/{$person['Person']['idUser']}' alt='photo'>";
+    		}
+			?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Gender'); ?></dt>

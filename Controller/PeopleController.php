@@ -9,7 +9,7 @@ class PeopleController extends AppController {
   
   public function beforeFilter() {
     parent::beforeFilter();
-    $this->Auth->allow(array('register'));
+    $this->Auth->allow(array('register', 'get_ohoto', 'view'));
   }
   
   public function register() {
@@ -97,4 +97,31 @@ class PeopleController extends AppController {
 		$this->Session->setFlash(__('Person was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+  public function get_photo($id = null) {
+    $this->Person->id = $id;
+    if (!$this->Person->exists()) {
+			throw new NotFoundException(__('Invalid person'));
+		}
+		$person = $this->Person->read(null, $id);
+		$this->response->header(array(
+		  'Content-type' => 'image/jpeg',
+		  'Content-Length' => strlen($person['Person']['photo'])
+		));
+		$this->autoRender = false;
+		return $person['Person']['photo'];
+  }
+  
+  public function delete_photo() {
+    $id = $this->Session->read('Auth.User.idUser');
+    $this->Person->id = $id;
+    $person = $this->Person->read(null, $id);
+    $person['Person']['photo'] = array(
+      'error' => 4,
+      'size' => 0
+    );
+    $this->Person->save($person);
+    $this->redirect($this->referer());
+  }
+
 }

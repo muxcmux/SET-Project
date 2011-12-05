@@ -117,4 +117,36 @@ class RefereesController extends AppController {
 		$this->Session->setFlash(__('Referee was not deleted'));
 		$this->redirect('/profile');
 	}
+	
+	public function beforeFilter() {
+    parent::beforeFilter();
+    $this->Auth->allow(array('get_document'));
+  }
+	
+	public function get_document($id = null) {
+    $this->Referee->id = $id;
+    if (!$this->Referee->exists()) {
+			throw new NotFoundException(__('Invalid referee'));
+		}
+		$r = $this->Referee->read(null, $id);
+		$this->response->header(array(
+		  'Content-type' => 'image/jpeg',
+		  'Content-Length' => strlen($r['Referee']['referenceDoc'])
+		));
+		$this->autoRender = false;
+		return $r['Referee']['referenceDoc'];
+  }
+  
+  public function delete_document($id = null) {
+    $this->Referee->id = $id;
+    $r = $this->Referee->read(null, $id);
+    $r['Referee']['referenceDoc'] = array(
+      'error' => 4,
+      'size' => 0
+    );
+    $this->Referee->save($r);
+    $this->redirect($this->referer());
+  }
+	
+	
 }

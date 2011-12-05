@@ -54,8 +54,29 @@ class Person extends AppModel {
 	      'rule' => 'notEmpty',
 	      'message' => 'What is your first name?'
 	    )
-	  )
+	  ),
+	  'photo' => 'photoValid'
 	);
+	
+	public function  photoValid($check) {
+	  $data = $check['photo'];
+	  $allowed_types = array(
+	    'image/jpeg',
+	    'image/jpg'
+	  );
+	  if ($data['error']) {
+	    if ($data['size'] == 0) {
+	      $this->data['Person']['photo'] = null;
+	      return true;
+	    }
+	    return 'There was an error uploading the photo. Please try again.';
+	  } else if (!in_array($data['type'], $allowed_types)) {
+	    return 'Only JPG images is allowed';
+    } else {
+	    $this->data['Person']['photo'] = file_get_contents($data['tmp_name']);
+	    return true;
+	  }
+	}
 	
 	
 

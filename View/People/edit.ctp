@@ -1,5 +1,5 @@
 
-<?php echo $this->Form->create('Person');?>
+<?php echo $this->Form->create('Person', array('type' => 'file'));?>
   <h3>Update your profile</h3>
 	<?php
 		echo $this->Form->input('idUser');
@@ -13,7 +13,12 @@
 		echo $this->Form->input('postcode');
 		echo $this->Form->input('secondEmail', array('label' => 'Secondary e-mail'));
 		echo $this->Form->input('personalUrl', array('label' => 'Your personal website'));
-		echo $this->Form->input('photo');
+		if ($this->data['Person']['photo']) {
+		  echo "<img src='/people/get_photo/{$this->data['Person']['idUser']}' alt='photo'><br>";
+		  echo '<a href="/people/delete_photo">Remove photo</a>';
+		} else {
+		  echo $this->Form->input('photo', array('type' => 'file'));
+		}
 		echo $this->Form->input('female', array('label' => 'Gender', 'type' => 'select', 'options' => array(0 => 'Male', 1 => 'Female')));
 		echo $this->Form->input('postcodeStart');
 		echo $this->Form->input('authorityToWorkStatement', array('label' => 'Authority to work statement <small>List of work restirctions (eg. only 20 hours per week)</small>'));
