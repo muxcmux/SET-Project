@@ -120,7 +120,7 @@ class RefereesController extends AppController {
 	
 	public function beforeFilter() {
     parent::beforeFilter();
-    $this->Auth->allow(array('get_document'));
+    $this->Auth->allow('*');
   }
 	
 	public function get_document($id = null) {

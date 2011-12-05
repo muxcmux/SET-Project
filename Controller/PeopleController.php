@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * People Controller
  *
@@ -9,7 +10,7 @@ class PeopleController extends AppController {
   
   public function beforeFilter() {
     parent::beforeFilter();
-    $this->Auth->allow(array('register', 'get_ohoto', 'view', 'print'));
+    $this->Auth->allow(array('register', 'get_photo', 'view', 'print', 'contact'));
   }
   
   public function register() {
@@ -59,6 +60,7 @@ class PeopleController extends AppController {
 			throw new NotFoundException(__('Invalid person'));
 		}
 		$this->set('person', $this->Person->read(null, $id));
+		$this->set('sectors', $this->Person->Sector->find('list'));
 	}
 
 	public function edit() {
@@ -79,23 +81,7 @@ class PeopleController extends AppController {
 		}
 		$educationLevels = $this->Person->EducationLevel->find('list');
 		$this->set(compact('educationLevels'));
-	}
-
-	public function delete() {
-	  $id = $this->Session->read('Auth.User.idUser');
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Person->id = $id;
-		if (!$this->Person->exists()) {
-			throw new NotFoundException(__('Invalid person'));
-		}
-		if ($this->Person->delete()) {
-			$this->Session->setFlash(__('Person deleted'));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Person was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$this->set('sectors', $this->Person->Sector->find('list'));
 	}
 
   public function get_photo($id = null) {
@@ -124,7 +110,32 @@ class PeopleController extends AppController {
     $this->redirect($this->referer());
   }
   
-  
+  public function contact($id = null) {
+	  if (!$id) {
+	    $id = $this->Session->read('Auth.User.idUser');
+	  }
+		$this->Person->id = $id;
+		if (!$this->Person->exists()) {
+			throw new NotFoundException(__('Invalid person'));
+		}
+		$this->set('person', $this->Person->read(null, $id));
+		$this->set('sectors', $this->Person->Sector->find('list'));
+		
+		if ($this->request->is('post')) {
+		  if (!$this->data['Person']['subject']) {
+		    $this->Session->setFlash('Please specify a subject for your message');
+		  } else if (!$this->data['Person']['message']) {
+		    $this->Session->setFlash('What is your message?');
+		  } else {
+		    $email = new CakeEmail('default');
+        $email->to($this->data['Person']['email']);
+        $email->subject($this->data['Person']['subject']);
+        $email->send($this->data['Person']['message']);
+		    $this->Session->setFlash('Your message has been sent sucessfully', 'success');
+		  }
+	  }
+		
+	}
 
 
 
@@ -142,6 +153,7 @@ class PeopleController extends AppController {
 		$person = $this->Person->read(null, $id);
 		$this->layout = 'print';
 		$this->set(compact('person'));
+		$this->set('sectors', $this->Person->Sector->find('list'));
   }
   
   

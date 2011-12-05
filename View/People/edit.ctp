@@ -11,6 +11,7 @@
 		echo $this->Form->input('addressLine2');
 		echo $this->Form->input('town');
 		echo $this->Form->input('postcode');
+		echo $this->Form->input('preferredSector', array('options' => $sectors));
 		echo $this->Form->input('secondEmail', array('label' => 'Secondary e-mail'));
 		echo $this->Form->input('personalUrl', array('label' => 'Your personal website'));
 		if ($this->data['Person']['photo']) {

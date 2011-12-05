@@ -92,6 +92,13 @@ class Person extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Sector' => array(
+			'className' => 'Sector',
+			'foreignKey' => 'preferredSector',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 
@@ -101,6 +108,7 @@ class Person extends AppModel {
  * @var array
  */
 	public $hasMany = array(
+	  
 		'Skill' => array(
 			'className' => 'Skill',
 			'foreignKey' => 'Persons_idUser',

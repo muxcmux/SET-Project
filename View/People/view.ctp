@@ -8,6 +8,8 @@ $its_me = ($person['Person']['idUser'] == $this->Session->read('Auth.User.idUser
   foreach ($person as $k => $v) {
     if ($k == 'EducationLevel') {
       if (empty($k['idEducationLevel'])) $missing++;
+    } else if ($k == 'Sector') {
+      if (empty($k['idSectors'])) $missing++;
     } else if ($k == 'Person') {
       foreach ($v as $pk => $pv) {
         if (!in_array($pk, array('idUser', 'username', 'password', 'forename2', 'addressLine2', 'role', 'female', 'authorityToWorkStatement', 'postcodeStart', 'penaltyPoints', 'ucasPoints', 'noOfAlevels', 'fiveOrMoreGcses', 'gcseEnglishGrade', 'gcseMathsGrade', 'noOfGcses', 'secondEmail', 'landline'))) {
@@ -39,6 +41,9 @@ $its_me = ($person['Person']['idUser'] == $this->Session->read('Auth.User.idUser
 <?php endif; ?>
 <br>
   <a class="register" target="_blank" href="/people/print_cv/<?=$person['Person']['idUser']?>">Print CV</a>
+  <?php if (!$its_me) :?>
+    &nbsp;<a class="register" href="/people/contact/<?=$person['Person']['idUser']?>">Contact this person</a>
+  <?php endif; ?>
   <br><br><br>
   <div class="clear"></div>
 	<dl>
@@ -72,6 +77,11 @@ $its_me = ($person['Person']['idUser'] == $this->Session->read('Auth.User.idUser
 		<dd>
 			<?php echo h($person['Person']['postcode']); ?>
 			&nbsp;
+		</dd>
+		<dt>Preferred sector</dt>
+		<dd>
+		  <?=$person['Sector']['sectorTitle'];?>
+		  &nbsp;
 		</dd>
 		<dt><?php echo __('Secondary email'); ?></dt>
 		<dd>

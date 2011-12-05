@@ -35,6 +35,7 @@ class AppController extends Controller {
   public $helpers = array('Html', 'Form', 'Session', 'Text', 'Time');
   
   public $components = array(
+      'Email',
       'Session',
       'Auth' => array(
           'loginAction' => array(
@@ -55,6 +56,10 @@ class AppController extends Controller {
       $this->Session->setFlash('You are not authorized to access this resource.');
       $this->redirect('/');
     }
+  }
+  
+  public function beforeFilter() {
+    $this->Auth->allow(array('get_single'));
   }
   
 }
