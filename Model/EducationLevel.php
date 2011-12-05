@@ -27,6 +27,11 @@ class EducationLevel extends AppModel {
  *
  * @var array
  */
+ 
+ public $validate = array(
+   'educationLevel' => 'notEmpty'
+ );
+ 
 	public $hasMany = array(
 		'Person' => array(
 			'className' => 'Person',

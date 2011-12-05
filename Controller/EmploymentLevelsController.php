@@ -41,7 +41,7 @@ class EmploymentLevelsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->EmploymentLevel->create();
 			if ($this->EmploymentLevel->save($this->request->data)) {
-				$this->Session->setFlash(__('The employment level has been saved'));
+				$this->Session->setFlash(__('The employment level has been saved'), 'success');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The employment level could not be saved. Please, try again.'));
@@ -62,7 +62,7 @@ class EmploymentLevelsController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->EmploymentLevel->save($this->request->data)) {
-				$this->Session->setFlash(__('The employment level has been saved'));
+				$this->Session->setFlash(__('The employment level has been saved'), 'success');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The employment level could not be saved. Please, try again.'));
@@ -87,7 +87,7 @@ class EmploymentLevelsController extends AppController {
 			throw new NotFoundException(__('Invalid employment level'));
 		}
 		if ($this->EmploymentLevel->delete()) {
-			$this->Session->setFlash(__('Employment level deleted'));
+			$this->Session->setFlash(__('Employment level deleted'), 'success');
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Employment level was not deleted'));

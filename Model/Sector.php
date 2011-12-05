@@ -27,6 +27,11 @@ class Sector extends AppModel {
  *
  * @var array
  */
+ 
+  public $validate = array(
+    'sectorTitle' => 'notEmpty'
+  );
+ 
 	public $hasMany = array(
 		'ProfessionalQualification' => array(
 			'className' => 'ProfessionalQualification',

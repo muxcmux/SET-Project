@@ -7,7 +7,27 @@ App::uses('AppController', 'Controller');
  */
 class SkillsController extends AppController {
 
-
+  
+  public function admin_edit($id = null) {
+    $this->kill_if_not_admin();
+    $this->Skill->id = $id;
+		if (!$this->Skill->exists()) {
+			throw new NotFoundException(__('Invalid skill'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->Skill->save($this->request->data)) {
+				$this->Session->setFlash(__('The skill has been updated'), 'success');
+				$this->redirect('/dashboard');
+			} else {
+				$this->Session->setFlash(__('The skill could not be saved. Please, try again.'));
+			}
+		} else {
+			$this->request->data = $this->Skill->read(null, $id);
+		}
+		$people = $this->Skill->Person->find('list');
+		$this->set(compact('people'));
+  }
+  
 /**
  * index method
  *
@@ -65,7 +85,7 @@ class SkillsController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Skill->save($this->request->data)) {
 				$this->Session->setFlash(__('The skill has been saved'), 'success');
-				$this->redirect(array('action' => 'index'));
+				$this->redirect('/profile');
 			} else {
 				$this->Session->setFlash(__('The skill could not be saved. Please, try again.'));
 			}

@@ -41,7 +41,7 @@ class JobTitlesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->JobTitle->create();
 			if ($this->JobTitle->save($this->request->data)) {
-				$this->Session->setFlash(__('The job title has been saved'));
+				$this->Session->setFlash(__('The job title has been saved'), 'success');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The job title could not be saved. Please, try again.'));
@@ -64,7 +64,7 @@ class JobTitlesController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->JobTitle->save($this->request->data)) {
-				$this->Session->setFlash(__('The job title has been saved'));
+				$this->Session->setFlash(__('The job title has been saved'), 'success');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The job title could not be saved. Please, try again.'));
@@ -91,7 +91,7 @@ class JobTitlesController extends AppController {
 			throw new NotFoundException(__('Invalid job title'));
 		}
 		if ($this->JobTitle->delete()) {
-			$this->Session->setFlash(__('Job title deleted'));
+			$this->Session->setFlash(__('Job title deleted'), 'success');
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Job title was not deleted'));

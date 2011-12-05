@@ -32,7 +32,7 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
   
-  public $helpers = array('Html', 'Form', 'Session', 'Text');
+  public $helpers = array('Html', 'Form', 'Session', 'Text', 'Time');
   
   public $components = array(
       'Session',
@@ -49,5 +49,12 @@ class AppController extends Controller {
           )
       )
   );
+  
+  protected function kill_if_not_admin() {
+    if ($this->Session->read('Auth.User.role') != 'admin') {
+      $this->Session->setFlash('You are not authorized to access this resource.');
+      $this->redirect('/');
+    }
+  }
   
 }

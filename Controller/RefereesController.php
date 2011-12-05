@@ -6,7 +6,27 @@ App::uses('AppController', 'Controller');
  * @property Referee $Referee
  */
 class RefereesController extends AppController {
-
+  
+  
+  public function admin_edit($id = null) {
+    $this->kill_if_not_admin();
+    $this->Referee->id = $id;
+		if (!$this->Referee->exists()) {
+			throw new NotFoundException(__('Invalid referee'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->Referee->save($this->request->data)) {
+				$this->Session->setFlash(__('The referee has been updated'), 'success');
+				$this->redirect('/dashboard');
+			} else {
+				$this->Session->setFlash(__('The referee could not be saved. Please, try again.'));
+			}
+		} else {
+			$this->request->data = $this->Referee->read(null, $id);
+		}
+		$people = $this->Referee->Person->find('list');
+		$this->set(compact('people'));
+  }
 
 /**
  * index method

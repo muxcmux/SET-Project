@@ -1,12 +1,16 @@
 <?php
-  $total = count($person['Person']) + count($person) - 10;
+$its_me = ($person['Person']['idUser'] == $this->Session->read('Auth.User.idUser'));
+?>
+
+<?php
+  $total = count($person['Person']) + count($person) - 20;
   $missing = 0;
   foreach ($person as $k => $v) {
     if ($k == 'EducationLevel') {
-      if (!empty($k['idEducationLevel'])) $missing++;
+      if (empty($k['idEducationLevel'])) $missing++;
     } else if ($k == 'Person') {
       foreach ($v as $pk => $pv) {
-        if (!in_array($pk, array('idUser', 'username', 'password', 'forename2', 'addressline2', 'role', 'gender', 'authorityToWorkStatement', 'postcodeStart', 'landline'))) {
+        if (!in_array($pk, array('idUser', 'username', 'password', 'forename2', 'addressLine2', 'role', 'female', 'authorityToWorkStatement', 'postcodeStart', 'penaltyPoints', 'ucasPoints', 'noOfAlevels', 'fiveOrMoreGcses', 'gcseEnglishGrade', 'gcseMathsGrade', 'noOfGcses', 'secondEmail', 'landline'))) {
           if (!$pv) $missing++;
         }
       }
@@ -17,21 +21,22 @@
   $percent = number_format((($total-$missing)/$total)*100);
 ?>
 
-
-
-<?php if ($percent > 95) : ?>
-  <h3>Your profile:</h3>
-<?php else : ?>
-  <h3>
-    Profile completeness:
-    <div id="profile_completeness">
-      <span><?php echo $percent; ?>%</span>
-      <div style="width: <?php echo $percent; ?>%"><span><?php echo $percent; ?>%</span></div>
-    </div>
-  </h3>
-  <p>A complete profile gives you a better chance of being hired. <a href="/update_profile">Complete your profile now!</a><br><br></p>
-<?php endif ?>
-
+<?php if ($its_me): ?>
+   <?php if ($percent > 95) : ?>
+     <h3>Your profile is complete!</h3>
+   <?php else : ?>
+     <h3>
+       Profile completeness:
+       <div id="profile_completeness">
+         <span><?php echo $percent; ?>%</span>
+         <div style="width: <?php echo $percent; ?>%"><span><?php echo $percent; ?>%</span></div>
+       </div>
+     </h3>
+     <p>A complete profile gives you a better chance of being hired. <a href="/update_profile">Complete your profile now!</a><br><br></p>
+   <?php endif ?>       
+<?php else: ?>
+  <h3><?=$person['Person']['forename1']?>'s profile</h3>
+<?php endif; ?>
   
 	<dl>
 		<dt><?php echo __('Title'); ?></dt>
@@ -112,39 +117,39 @@
 		<dd>
 		  <?php
 		    if ($person['EducationLevel']['idEducationLevel']) {
-		      $person['EducationLevel']['educationLevel'];
+		      echo $person['EducationLevel']['educationLevel'];
 		    }
 		  ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Number Of GCSEs'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['noOfGcses']); ?>
+			<?php echo ($person['Person']['noOfGcses']) ? $person['Person']['noOfGcses'] : ''; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('GCSE English Grade'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['gcseEnglishGrade']); ?>
+			<?php echo ($person['Person']['gcseEnglishGrade']) ? $person['Person']['gcseEnglishGrade'] : ''; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('GCSE Maths Grade'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['gcseMathsGrade']); ?>
+			<?php echo ($person['Person']['gcseMathsGrade']) ? $person['Person']['gcseMathsGrade'] : ''; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Five Or More GCSEs'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['fiveOrMoreGcses']); ?>
+			<?php echo ($person['Person']['fiveOrMoreGcses']) ? 'Yes' : 'No'; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Number Of A levels'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['noOfAlevels']); ?>
+			<?php echo ($person['Person']['noOfAlevels']) ? $person['Person']['noOfAlevels'] : ''; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('UCAS Points'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['ucasPoints']); ?>
+			<?php echo ($person['Person']['ucasPoints']) ? $person['Person']['ucasPoints'] : ''; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Student status'); ?></dt>
@@ -164,16 +169,18 @@
 		</dd>
 		<dt><?php echo __('Date of birth'); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['dob']); ?>
+			<?php echo ($person['Person']['dob']) ? $person['Person']['dob'] : ''; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Drivers license penalty points '); ?></dt>
 		<dd>
-			<?php echo h($person['Person']['penaltyPoints']); ?>
+			<?php echo ($person['Person']['penaltyPoints']) ? $person['Person']['penaltyPoints'] : ''; ?>
 			&nbsp;
 		</dd>
+		<?php if ($its_me) : ?>
 		<dt><div class="actions"><a href="/update_profile">Edit my profile</a></div></dt>
     <dd>&nbsp;</dd>
+    <?php endif; ?>
 	</dl>
 <div class="clear"></div>
 
@@ -193,14 +200,16 @@
   
   
   <div class="related">
-  	<h3><?php echo __('My Skills');?></h3>
+  	<h3><?php echo ($its_me) ? 'My Skills' : "{$person['Person']['forename1']}'s skills";?></h3>
   	<?php if (!empty($person['Skill'])):?>
   	<table cellpadding = "0" cellspacing = "0">
   	<tr>
   		<th><?php echo __('Skill'); ?></th>
   		<th><?php echo __('Level'); ?></th>
   		<th><?php echo __('Verified?'); ?></th>
+  		<?php if ($its_me): ?>
   		<th class="actions"><?php echo __('Actions');?></th>
+  		<?php endif; ?>
   	</tr>
   	<?php
   		$i = 0;
@@ -208,22 +217,25 @@
   		<tr>
   			<td><?php echo $skill['skillName'];?></td>
   			<td><?php echo $skill['skillLevel'];?></td>
-  			<td><?php echo ($skill['verified']) ? 'Yes.' : 'No.';?></td>
+  			<td><?php echo ($skill['verified']) ? 'Yes.' : 'No.';?> <?=$skill['howVerified']?></td>
+  			<?php if ($its_me): ?>
   			<td class="actions">
   				<?php echo $this->Html->link(__('Edit'), array('controller' => 'skills', 'action' => 'edit', $skill['idSkills'])); ?>
   				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'skills', 'action' => 'delete', $skill['idSkills']), null, __('Are you sure you want to delete # %s?', $skill['idSkills'])); ?>
   			</td>
+  			<?php endif; ?>
   		</tr>
   	<?php endforeach; ?>
   	</table>
   <?php endif; ?>
-
+  <?php if ($its_me) :?>
   	<div class="actions">
   		<ul>
   			<li><?php echo $this->Html->link(__('New Skill'), array('controller' => 'skills', 'action' => 'add'));?> </li>
   		</ul>
   	</div>
   </div>
+  <?php endif; ?>
 
 
 
@@ -231,7 +243,7 @@
 
 
   <div class="related">
-  	<h3><?php echo __('My Referees');?></h3>
+  	<h3><?php echo ($its_me) ? 'My Referees' : "{$person['Person']['forename1']}'s referees";?></h3>
   	<?php if (!empty($person['Referee'])):?>
   	<table cellpadding = "0" cellspacing = "0">
   	<tr>
@@ -239,9 +251,11 @@
   		<th><?php echo __('Email'); ?></th>
   		<th><?php echo __('Phone'); ?></th>
   		<th><?php echo __('Relationship'); ?></th>
-  		<th><?php echo __('PermissionToContact'); ?></th>
+  		<th><?php echo __('OK to contact?'); ?></th>
   		<th><?php echo __('Verified?'); ?></th>
+  		<?php if ($its_me): ?>
   		<th class="actions"><?php echo __('Actions');?></th>
+  		<?php endif; ?>
   	</tr>
   	<?php
   		$i = 0;
@@ -252,22 +266,25 @@
   			<td><?php echo $referee['contactPhone'];?></td>
   			<td><?php echo $referee['relationship'];?></td>
   			<td><?php echo ($referee['permissionToContact']) ? 'Yes.' : 'No.' ;?></td>
-  			<td><?php echo ($referee['verified']) ? 'Yes.' : 'No.';?></td>
+  			<td><?php echo ($referee['verified']) ? 'Yes.' : 'No.';?> <?=$referee['howVerified']?></td>
+  			<?php if ($its_me): ?>
   			<td class="actions">
   				<?php echo $this->Html->link(__('Edit'), array('controller' => 'referees', 'action' => 'edit', $referee['idReferees'])); ?>
   				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'referees', 'action' => 'delete', $referee['idReferees']), null, __('Are you sure you want to delete # %s?', $referee['idReferees'])); ?>
   			</td>
+  			<?php endif; ?>
   		</tr>
   	<?php endforeach; ?>
   	</table>
   <?php endif; ?>
-
+  <?php if ($its_me) :?>
   	<div class="actions">
   		<ul>
   			<li><?php echo $this->Html->link(__('New Referee'), array('controller' => 'referees', 'action' => 'add'));?> </li>
   		</ul>
   	</div>
   </div>
+  <?php endif; ?>
   
   
   
@@ -276,47 +293,49 @@
   
   
   <div class="related">
-  	<h3><?php echo __('My Professional Qualifications');?></h3>
+  	<h3><?php echo ($its_me) ? 'My Professional qualifications' : "{$person['Person']['forename1']}'s professional qualifications";?></h3>
   	<?php if (!empty($person['ProfessionalQualification'])):?>
   	<table cellpadding = "0" cellspacing = "0">
   	<tr>
-  		<th><?php echo __('QualificationName'); ?></th>
-  		<th><?php echo __('Sectors IdSectors'); ?></th>
-  		<th><?php echo __('OtherSector'); ?></th>
-  		<th><?php echo __('AwardingBody'); ?></th>
-  		<th><?php echo __('YearObtained'); ?></th>
+  		<th>Qualification</th>
+  		<th>Sector</th>
+  		<th>Awarding body</th>
   		<th><?php echo __('Result'); ?></th>
-  		<th><?php echo __('Verified'); ?></th>
-  		<th><?php echo __('HowVerified'); ?></th>
+  		<th><?php echo __('Verified?'); ?></th>
+  		<?php if ($its_me): ?>
   		<th class="actions"><?php echo __('Actions');?></th>
+  		<?php endif; ?>
   	</tr>
   	<?php
   		$i = 0;
   		foreach ($person['ProfessionalQualification'] as $professionalQualification): ?>
+  		<?php
+  		$p = $this->requestAction("/professional_qualifications/get_single/{$professionalQualification['idProfessionalQualifications']}");
+  		?>
   		<tr>
-  			<td><?php echo $professionalQualification['qualificationName'];?></td>
-  			<td><?php echo $professionalQualification['Sectors_idSectors'];?></td>
-  			<td><?php echo $professionalQualification['otherSector'];?></td>
+  			<td><?php echo $professionalQualification['qualificationName'];?> (<?=($professionalQualification['yearObtained'])?>)</td>
+  			<td><?php echo ($p['Sector']['idSectors']) ? $p['Sector']['sectorTitle'] : $p['ProfessionalQualification']['otherSector'];?></td>
   			<td><?php echo $professionalQualification['awardingBody'];?></td>
-  			<td><?php echo $professionalQualification['yearObtained'];?></td>
   			<td><?php echo $professionalQualification['result'];?></td>
-  			<td><?php echo $professionalQualification['verified'];?></td>
-  			<td><?php echo $professionalQualification['howVerified'];?></td>
+  			<td><?php echo ($professionalQualification['verified']) ? 'Yes' : 'No';?> <?=$professionalQualification['howVerified']?></td>
+  			<?php if ($its_me): ?>
   			<td class="actions">
   				<?php echo $this->Html->link(__('Edit'), array('controller' => 'professional_qualifications', 'action' => 'edit', $professionalQualification['idProfessionalQualifications'])); ?>
   				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'professional_qualifications', 'action' => 'delete', $professionalQualification['idProfessionalQualifications']), null, __('Are you sure you want to delete # %s?', $professionalQualification['idProfessionalQualifications'])); ?>
   			</td>
+  			<?php endif; ?>
   		</tr>
   	<?php endforeach; ?>
   	</table>
   <?php endif; ?>
-
+  <?php if ($its_me): ?>
   	<div class="actions">
   		<ul>
   			<li><?php echo $this->Html->link(__('New Professional Qualification'), array('controller' => 'professional_qualifications', 'action' => 'add'));?> </li>
   		</ul>
   	</div>
   </div>
+  <?php endif; ?>
   
   
   
@@ -326,53 +345,51 @@
   
   
   <div class="related">
-  	<h3><?php echo __('My Experiences');?></h3>
+  	<h3><?php echo ($its_me) ? 'My Experiences' : "{$person['Person']['forename1']}'s experiences";?></h3>
   	<?php if (!empty($person['Experience'])):?>
   	<table cellpadding = "0" cellspacing = "0">
   	<tr>
-  		<th><?php echo __('IdExperiences'); ?></th>
-  		<th><?php echo __('Persons IdUser'); ?></th>
-  		<th><?php echo __('DateStarted'); ?></th>
-  		<th><?php echo __('DateFinished'); ?></th>
-  		<th><?php echo __('JobTitles IdJobTitles'); ?></th>
-  		<th><?php echo __('OtherJobTitle'); ?></th>
-  		<th><?php echo __('KeyDuties'); ?></th>
-  		<th><?php echo __('EmploymentLevels IdLevelsOfEmployment'); ?></th>
-  		<th><?php echo __('EmployerName'); ?></th>
+  		<th>Job</th>
+  		<th>Employment lvl</th>
+  		<th>Key duties</th>
   		<th><?php echo __('Verified'); ?></th>
-  		<th><?php echo __('HowVerified'); ?></th>
+  		<?php if ($its_me): ?>
   		<th class="actions"><?php echo __('Actions');?></th>
+  		<?php endif; ?>
   	</tr>
   	<?php
   		$i = 0;
   		foreach ($person['Experience'] as $experience): ?>
+  		<?php
+  		$e = $this->requestAction("/experiences/get_single/{$experience['idExperiences']}");
+  		?>
   		<tr>
-  			<td><?php echo $experience['idExperiences'];?></td>
-  			<td><?php echo $experience['Persons_idUser'];?></td>
-  			<td><?php echo $experience['dateStarted'];?></td>
-  			<td><?php echo $experience['dateFinished'];?></td>
-  			<td><?php echo $experience['JobTitles_idJobTitles'];?></td>
-  			<td><?php echo $experience['otherJobTitle'];?></td>
+  		  <td>
+  		  <?=($experience['JobTitles_idJobTitles']) ? $e['JobTitle']['jobTitle'] : $experience['otherJobTitle'];?> at 
+  		  <?php echo $experience['employerName'];?> 
+  		  (<?php echo $experience['dateStarted'];?> to <?php echo $experience['dateFinished'];?>)
+  		  </td>
+  			<td><?php echo $e['EmploymentLevel']['employmentLevel'];?></td>
   			<td><?php echo $experience['keyDuties'];?></td>
-  			<td><?php echo $experience['EmploymentLevels_idLevelsOfEmployment'];?></td>
-  			<td><?php echo $experience['employerName'];?></td>
-  			<td><?php echo $experience['verified'];?></td>
-  			<td><?php echo $experience['howVerified'];?></td>
+  			<td><?php echo ($experience['verified']) ? 'Yes.' : 'No';?> <?=$experience['howVerified']?></td>
+  			<?php if ($its_me): ?>
   			<td class="actions">
   				<?php echo $this->Html->link(__('Edit'), array('controller' => 'experiences', 'action' => 'edit', $experience['idExperiences'])); ?>
   				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'experiences', 'action' => 'delete', $experience['idExperiences']), null, __('Are you sure you want to delete # %s?', $experience['idExperiences'])); ?>
   			</td>
+  			<?php endif; ?>
   		</tr>
   	<?php endforeach; ?>
   	</table>
   <?php endif; ?>
-
+  <?php if ($its_me): ?>
   	<div class="actions">
   		<ul>
   			<li><?php echo $this->Html->link(__('New Experience'), array('controller' => 'experiences', 'action' => 'add'));?> </li>
   		</ul>
   	</div>
   </div>
+  <?php endif; ?>
   
   
   
@@ -382,58 +399,50 @@
   
   
   <div class="related">
-  	<h3><?php echo __('My Educational Qualifications');?></h3>
+  	<h3><?php echo ($its_me) ? 'My Educational Qualifications' : "{$person['Person']['forename1']}'s educational qualifications";?></h3>
   	<?php if (!empty($person['EducationalQualification'])):?>
   	<table cellpadding = "0" cellspacing = "0">
   	<tr>
-  		<th><?php echo __('IdEducationalQualifications'); ?></th>
-  		<th><?php echo __('Persons IdUser'); ?></th>
-  		<th><?php echo __('QualificationType'); ?></th>
-  		<th><?php echo __('CourseName'); ?></th>
-  		<th><?php echo __('EducationLevels IdEducationLevel'); ?></th>
-  		<th><?php echo __('Vocational'); ?></th>
-  		<th><?php echo __('MainSubject'); ?></th>
-  		<th><?php echo __('NameOfInstitutions'); ?></th>
-  		<th><?php echo __('Country'); ?></th>
-  		<th><?php echo __('YearObtained'); ?></th>
-  		<th><?php echo __('Result'); ?></th>
-  		<th><?php echo __('ThesesTitle'); ?></th>
+  		<th><?php echo __('Qualification'); ?></th>
+  		<th><?php echo __('Course'); ?></th>
+  		<th>Education level</th>
+  		<th>Subject</th>
+  		<th><?php echo __('Institution'); ?></th>
   		<th><?php echo __('Verified'); ?></th>
-  		<th><?php echo __('HowVerified'); ?></th>
+  		<?php if ($its_me): ?>
   		<th class="actions"><?php echo __('Actions');?></th>
+  		<?php endif; ?>
   	</tr>
   	<?php
   		$i = 0;
   		foreach ($person['EducationalQualification'] as $educationalQualification): ?>
+  		<?php
+  		$e = $this->requestAction("/educational_qualifications/get_single/{$educationalQualification['idEducationalQualifications']}");
+  		?>
   		<tr>
-  			<td><?php echo $educationalQualification['idEducationalQualifications'];?></td>
-  			<td><?php echo $educationalQualification['Persons_idUser'];?></td>
-  			<td><?php echo $educationalQualification['qualificationType'];?></td>
+  			<td><?php echo $educationalQualification['qualificationType'];?> (<?php echo $educationalQualification['yearObtained'];?>)</td>
   			<td><?php echo $educationalQualification['courseName'];?></td>
-  			<td><?php echo $educationalQualification['EducationLevels_idEducationLevel'];?></td>
-  			<td><?php echo $educationalQualification['vocational'];?></td>
+  			<td><?php echo $e['EducationLevel']['educationLevel'];?></td>
   			<td><?php echo $educationalQualification['mainSubject'];?></td>
-  			<td><?php echo $educationalQualification['nameOfInstitutions'];?></td>
-  			<td><?php echo $educationalQualification['country'];?></td>
-  			<td><?php echo $educationalQualification['yearObtained'];?></td>
-  			<td><?php echo $educationalQualification['result'];?></td>
-  			<td><?php echo $educationalQualification['thesesTitle'];?></td>
-  			<td><?php echo $educationalQualification['verified'];?></td>
-  			<td><?php echo $educationalQualification['howVerified'];?></td>
+  			<td><?php echo $educationalQualification['nameOfInstitutions'];?> (<?php echo $educationalQualification['country'];?>)</td>
+  			<td><?php echo ($educationalQualification['verified']) ? 'Yes' : 'No';?> <?=$educationalQualification['howVerified'];?></td>
+  			<?php if ($its_me): ?>
   			<td class="actions">
   				<?php echo $this->Html->link(__('Edit'), array('controller' => 'educational_qualifications', 'action' => 'edit', $educationalQualification['idEducationalQualifications'])); ?>
   				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'educational_qualifications', 'action' => 'delete', $educationalQualification['idEducationalQualifications']), null, __('Are you sure you want to delete # %s?', $educationalQualification['idEducationalQualifications'])); ?>
   			</td>
+  			<?php endif; ?>
   		</tr>
   	<?php endforeach; ?>
   	</table>
   <?php endif; ?>
-
+  <?php if ($its_me): ?>
   	<div class="actions">
   		<ul>
   			<li><?php echo $this->Html->link(__('New Educational Qualification'), array('controller' => 'educational_qualifications', 'action' => 'add'));?> </li>
   		</ul>
   	</div>
   </div>
+  <?php endif; ?>
   <div class="clear"></div>
 </div>

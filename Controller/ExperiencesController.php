@@ -41,8 +41,8 @@ class ExperiencesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Experience->create();
 			if ($this->Experience->save($this->request->data)) {
-				$this->Session->setFlash(__('The experience has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The experience has been saved'), 'success');
+				$this->redirect('/profile');
 			} else {
 				$this->Session->setFlash(__('The experience could not be saved. Please, try again.'));
 			}
@@ -66,8 +66,29 @@ class ExperiencesController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Experience->save($this->request->data)) {
-				$this->Session->setFlash(__('The experience has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The experience has been saved'), 'success');
+				$this->redirect('/profile');
+			} else {
+				$this->Session->setFlash(__('The experience could not be saved. Please, try again.'));
+			}
+		} else {
+			$this->request->data = $this->Experience->read(null, $id);
+		}
+		$people = $this->Experience->Person->find('list');
+		$employmentLevels = $this->Experience->EmploymentLevel->find('list');
+		$jobTitles = $this->Experience->JobTitle->find('list');
+		$this->set(compact('people', 'employmentLevels', 'jobTitles'));
+	}
+	
+	public function admin_edit($id = null) {
+		$this->Experience->id = $id;
+		if (!$this->Experience->exists()) {
+			throw new NotFoundException(__('Invalid experience'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->Experience->save($this->request->data)) {
+				$this->Session->setFlash(__('The experience has been saved'), 'success');
+				$this->redirect('/dashboard');
 			} else {
 				$this->Session->setFlash(__('The experience could not be saved. Please, try again.'));
 			}
@@ -95,10 +116,19 @@ class ExperiencesController extends AppController {
 			throw new NotFoundException(__('Invalid experience'));
 		}
 		if ($this->Experience->delete()) {
-			$this->Session->setFlash(__('Experience deleted'));
-			$this->redirect(array('action'=>'index'));
+			$this->Session->setFlash(__('Experience deleted'), 'success');
+			$this->redirect('/profile');
 		}
 		$this->Session->setFlash(__('Experience was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect('/profile');
 	}
+	
+	public function get_single($id = null) {
+		$this->Experience->id = $id;
+		if (!$this->Experience->exists()) {
+			throw new NotFoundException(__('Invalid experience'));
+		}
+		return $this->Experience->read(null, $id);
+	}
+	
 }

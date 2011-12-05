@@ -28,6 +28,12 @@ class Experience extends AppModel {
  *
  * @var array
  */
+ 
+  public $validate = array(
+    'keyDuties' => 'notEmpty',
+    'employerName' => 'notEmpty'
+  );
+ 
 	public $belongsTo = array(
 		'Person' => array(
 			'className' => 'Person',

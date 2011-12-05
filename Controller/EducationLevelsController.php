@@ -41,7 +41,7 @@ class EducationLevelsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->EducationLevel->create();
 			if ($this->EducationLevel->save($this->request->data)) {
-				$this->Session->setFlash(__('The education level has been saved'));
+				$this->Session->setFlash(__('The education level has been saved'), 'success');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The education level could not be saved. Please, try again.'));
@@ -62,7 +62,7 @@ class EducationLevelsController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->EducationLevel->save($this->request->data)) {
-				$this->Session->setFlash(__('The education level has been saved'));
+				$this->Session->setFlash(__('The education level has been saved'), 'success');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The education level could not be saved. Please, try again.'));
@@ -87,7 +87,7 @@ class EducationLevelsController extends AppController {
 			throw new NotFoundException(__('Invalid education level'));
 		}
 		if ($this->EducationLevel->delete()) {
-			$this->Session->setFlash(__('Education level deleted'));
+			$this->Session->setFlash(__('Education level deleted'), 'success');
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Education level was not deleted'));

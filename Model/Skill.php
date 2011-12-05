@@ -26,6 +26,10 @@ class Skill extends AppModel {
  *
  * @var array
  */
+ public $validate = array(
+   'skillName' => 'notEmpty'
+ );
+ 
 	public $belongsTo = array(
 		'Person' => array(
 			'className' => 'Person',

@@ -875,6 +875,9 @@ h3 {
   padding: 20px;
   background: #f0f0f0;
 }
+.related table {
+  width: 880px !important;
+}
 
 
 

@@ -33,7 +33,11 @@ class Referee extends AppModel {
                   'rule'    => array('inList', array('1')),
                   'message' => 'You must permit us to store these details no our servers.'
               )
-   )
+   ),
+   'title' => 'notEmpty',
+   'forename' => 'notEmpty',
+   'email' => 'email',
+   'email' => 'email'
  );
  
 	public $belongsTo = array(

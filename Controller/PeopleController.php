@@ -50,8 +50,10 @@ class PeopleController extends AppController {
       }
   }
 
-	public function view() {
-	  $id = $this->Session->read('Auth.User.idUser');
+	public function view($id = null) {
+	  if (!$id) {
+	    $id = $this->Session->read('Auth.User.idUser');
+	  }
 		$this->Person->id = $id;
 		if (!$this->Person->exists()) {
 			throw new NotFoundException(__('Invalid person'));

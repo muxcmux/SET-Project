@@ -42,7 +42,7 @@ class ProfessionalQualificationsController extends AppController {
 			$this->ProfessionalQualification->create();
 			if ($this->ProfessionalQualification->save($this->request->data)) {
 				$this->Session->setFlash(__('The professional qualification has been saved'), 'success');
-				$this->redirect('/');
+				$this->redirect('/profile');
 			} else {
 				$this->Session->setFlash(__('The professional qualification could not be saved. Please, try again.'));
 			}
@@ -58,25 +58,45 @@ class ProfessionalQualificationsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
-		$this->ProfessionalQualification->id = $id;
-		if (!$this->ProfessionalQualification->exists()) {
-			throw new NotFoundException(__('Invalid professional qualification'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->ProfessionalQualification->save($this->request->data)) {
-				$this->Session->setFlash(__('The professional qualification has been saved'), 'success');
-				$this->redirect('/');
-			} else {
-				$this->Session->setFlash(__('The professional qualification could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->ProfessionalQualification->read(null, $id);
-		}
-		$people = $this->ProfessionalQualification->Person->find('list');
-		$sectors = $this->ProfessionalQualification->Sector->find('list');
-		$this->set(compact('people', 'sectors'));
-	}
+  public function edit($id = null) {
+    $this->ProfessionalQualification->id = $id;
+    if (!$this->ProfessionalQualification->exists()) {
+      throw new NotFoundException(__('Invalid professional qualification'));
+    }
+    if ($this->request->is('post') || $this->request->is('put')) {
+      if ($this->ProfessionalQualification->save($this->request->data)) {
+        $this->Session->setFlash(__('The professional qualification has been saved'), 'success');
+        $this->redirect('/profile');
+      } else {
+        $this->Session->setFlash(__('The professional qualification could not be saved. Please, try again.'));
+      }
+    } else {
+      $this->request->data = $this->ProfessionalQualification->read(null, $id);
+    }
+    $people = $this->ProfessionalQualification->Person->find('list');
+    $sectors = $this->ProfessionalQualification->Sector->find('list');
+    $this->set(compact('people', 'sectors'));
+  }
+  
+  public function admin_edit($id = null) {
+    $this->ProfessionalQualification->id = $id;
+    if (!$this->ProfessionalQualification->exists()) {
+      throw new NotFoundException(__('Invalid professional qualification'));
+    }
+    if ($this->request->is('post') || $this->request->is('put')) {
+      if ($this->ProfessionalQualification->save($this->request->data)) {
+        $this->Session->setFlash(__('The professional qualification has been saved'), 'success');
+        $this->redirect('/dashboard');
+      } else {
+        $this->Session->setFlash(__('The professional qualification could not be saved. Please, try again.'));
+      }
+    } else {
+      $this->request->data = $this->ProfessionalQualification->read(null, $id);
+    }
+    $people = $this->ProfessionalQualification->Person->find('list');
+    $sectors = $this->ProfessionalQualification->Sector->find('list');
+    $this->set(compact('people', 'sectors'));
+  }
 
 /**
  * delete method
@@ -94,9 +114,20 @@ class ProfessionalQualificationsController extends AppController {
 		}
 		if ($this->ProfessionalQualification->delete()) {
 			$this->Session->setFlash(__('Professional qualification deleted'), 'success');
-			$this->redirect('/');
+			$this->redirect('/profile');
 		}
 		$this->Session->setFlash(__('Professional qualification was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect('/profile');
 	}
+	
+	public function get_single($id = null) {
+	  $this->ProfessionalQualification->id = $id;
+		if (!$this->ProfessionalQualification->exists()) {
+			throw new NotFoundException(__('Invalid professional qualification'));
+		}
+		return $this->ProfessionalQualification->read(null, $id);
+	}
+	
+	
+	
 }

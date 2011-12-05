@@ -27,6 +27,11 @@ class JobTitle extends AppModel {
  *
  * @var array
  */
+ 
+  public $validate = array(
+    'jobTitle' => 'notEmpty'
+  );
+  
 	public $belongsTo = array(
 		'Sector' => array(
 			'className' => 'Sector',

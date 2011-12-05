@@ -48,7 +48,7 @@ class SectorsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Sector->create();
 			if ($this->Sector->save($this->request->data)) {
-				$this->Session->setFlash(__('The sector has been saved'));
+				$this->Session->setFlash(__('The sector has been saved'), 'success');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The sector could not be saved. Please, try again.'));
@@ -69,7 +69,7 @@ class SectorsController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Sector->save($this->request->data)) {
-				$this->Session->setFlash(__('The sector has been saved'));
+				$this->Session->setFlash(__('The sector has been saved'), 'success');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The sector could not be saved. Please, try again.'));
@@ -94,7 +94,7 @@ class SectorsController extends AppController {
 			throw new NotFoundException(__('Invalid sector'));
 		}
 		if ($this->Sector->delete()) {
-			$this->Session->setFlash(__('Sector deleted'));
+			$this->Session->setFlash(__('Sector deleted'), 'success');
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Sector was not deleted'));

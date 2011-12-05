@@ -1,55 +1,55 @@
 <?php
 class AdminController extends AppController {
   
-  public $uses = array('JobTitle', 'EducationalQualification', 'ProfessionalQualificatoin', 'Skill', 'Referee', 'Experience');
+  public $uses = array('JobTitle', 'EducationalQualification', 'ProfessionalQualification', 'Skill', 'Referee', 'Experience');
   
   public function index() {
+    
+    
+    
     $educational_qualifications = $this->paginate('EducationalQualification',
       array(
-        'OR' => array(
-          'EducationalQualification.verified' => '0',
-          'EducationalQualification.verified' => null
-        )
+        "EducationalQualification.verified = '0' OR EducationalQualification.verified IS NULL"
       )
     );
     $this->set(compact('educational_qualifications'));
     
-    // $professional_qualifications = $this->paginate('ProfessionalQualification',
-    //   array(
-    //     'OR' => array(
-    //       'ProfessionalQualification.verified' => '0',
-    //       'ProfessionalQualification.verified' => null
-    //     )
-    //   )
-    // );
-    // $this->set(compact('professional_qualifications'));
+    
+    
+    
+    $professional_qualifications = $this->paginate('ProfessionalQualification',
+      array(
+        "ProfessionalQualification.verified = '0' OR ProfessionalQualification.verified IS NULL"
+      )
+    );
+    $this->set(compact('professional_qualifications'));
+    
+    
+    
     
     $skills = $this->paginate('Skill',
       array(
-        'OR' => array(
-          'Skill.verified' => '0',
-          'Skill.verified' => null
-        )
+        "Skill.verified = '0' OR Skill.verified IS NULL"
       )
     );
     $this->set(compact('skills'));
     
+    
+    
+    
     $referees = $this->paginate('Referee',
       array(
-        'OR' => array(
-          'Referee.verified' => '0',
-          'Referee.verified' => null
-        )
+        "Referee.verified = '0' OR Referee.verified IS NULL"
       )
     );
     $this->set(compact('referees'));
     
+    
+    
+    
     $experiences = $this->paginate('Experience',
       array(
-        'OR' => array(
-          'Experience.verified' => '0',
-          'Experience.verified' => null
-        )
+        "Experience.verified = '0' OR Experience.verified IS NULL"
       )
     );
     $this->set(compact('experiences'));

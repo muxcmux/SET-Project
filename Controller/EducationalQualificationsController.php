@@ -41,8 +41,8 @@ class EducationalQualificationsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->EducationalQualification->create();
 			if ($this->EducationalQualification->save($this->request->data)) {
-				$this->Session->setFlash(__('The educational qualification has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The educational qualification has been saved'), 'success');
+				$this->redirect('/profile');
 			} else {
 				$this->Session->setFlash(__('The educational qualification could not be saved. Please, try again.'));
 			}
@@ -65,8 +65,28 @@ class EducationalQualificationsController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->EducationalQualification->save($this->request->data)) {
-				$this->Session->setFlash(__('The educational qualification has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The educational qualification has been saved'), 'success');
+				$this->redirect('/profile');
+			} else {
+				$this->Session->setFlash(__('The educational qualification could not be saved. Please, try again.'));
+			}
+		} else {
+			$this->request->data = $this->EducationalQualification->read(null, $id);
+		}
+		$people = $this->EducationalQualification->Person->find('list');
+		$educationLevels = $this->EducationalQualification->EducationLevel->find('list');
+		$this->set(compact('people', 'educationLevels'));
+	}
+	
+	public function admin_edit($id = null) {
+		$this->EducationalQualification->id = $id;
+		if (!$this->EducationalQualification->exists()) {
+			throw new NotFoundException(__('Invalid educational qualification'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->EducationalQualification->save($this->request->data)) {
+				$this->Session->setFlash(__('The educational qualification has been saved'), 'success');
+				$this->redirect('/dashboard');
 			} else {
 				$this->Session->setFlash(__('The educational qualification could not be saved. Please, try again.'));
 			}
@@ -93,10 +113,20 @@ class EducationalQualificationsController extends AppController {
 			throw new NotFoundException(__('Invalid educational qualification'));
 		}
 		if ($this->EducationalQualification->delete()) {
-			$this->Session->setFlash(__('Educational qualification deleted'));
-			$this->redirect(array('action'=>'index'));
+			$this->Session->setFlash(__('Educational qualification deleted'), 'success');
+			$this->redirect('/profile');
 		}
 		$this->Session->setFlash(__('Educational qualification was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect('/profile');
 	}
+	
+	
+	public function get_single($id = null) {
+		$this->EducationalQualification->id = $id;
+		if (!$this->EducationalQualification->exists()) {
+			throw new NotFoundException(__('Invalid educational qualification'));
+		}
+		return $this->EducationalQualification->read(null, $id);
+	}
+	
 }

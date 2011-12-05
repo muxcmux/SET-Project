@@ -7,14 +7,15 @@
   <ul>
     <li><a href="/sectors">Manage Sectors</a></li>
     <li><a href="/job_titles">Manage Job Titles</a></li>
+    <li><a href="/education_levels">Manage Education Levels</a></li>
+    <li><a href="/employment_levels">Manage Employment levels</a></li>
   </ul>
 </div>
 <div class="clear"></div>
 
 
 <div class="profile-related">
-  
-  
+
   
   
   
@@ -24,38 +25,25 @@
   	<table cellpadding = "0" cellspacing = "0">
   	<tr>
   		<th><?php echo __('User'); ?></th>
-  		<th><?php echo __('QualificationType'); ?></th>
-  		<th><?php echo __('CourseName'); ?></th>
-  		<th><?php echo __('EducationLevels IdEducationLevel'); ?></th>
-  		<th><?php echo __('Vocational'); ?></th>
-  		<th><?php echo __('MainSubject'); ?></th>
-  		<th><?php echo __('NameOfInstitutions'); ?></th>
-  		<th><?php echo __('Country'); ?></th>
-  		<th><?php echo __('YearObtained'); ?></th>
-  		<th><?php echo __('Result'); ?></th>
-  		<th><?php echo __('ThesesTitle'); ?></th>
+  		<th><?php echo __('Qualification'); ?></th>
+  		<th><?php echo __('Course'); ?></th>
+  		<th>Education level</th>
+  		<th>Subject</th>
+  		<th><?php echo __('Institution'); ?></th>
   		<th class="actions"><?php echo __('Actions');?></th>
   	</tr>
   	<?php
   		$i = 0;
-  		foreach ($education_qualifications['EducationalQualification'] as $educationalQualification): ?>
+  		foreach ($educational_qualifications as $educationalQualification): ?>
   		<tr>
-  			<td><?php echo $educationalQualification['Persons_idUser'];?></td>
-  			<td><?php echo $educationalQualification['qualificationType'];?></td>
-  			<td><?php echo $educationalQualification['courseName'];?></td>
-  			<td><?php echo $educationalQualification['EducationLevels_idEducationLevel'];?></td>
-  			<td><?php echo $educationalQualification['vocational'];?></td>
-  			<td><?php echo $educationalQualification['mainSubject'];?></td>
-  			<td><?php echo $educationalQualification['nameOfInstitutions'];?></td>
-  			<td><?php echo $educationalQualification['country'];?></td>
-  			<td><?php echo $educationalQualification['yearObtained'];?></td>
-  			<td><?php echo $educationalQualification['result'];?></td>
-  			<td><?php echo $educationalQualification['thesesTitle'];?></td>
-  			<td><?php echo $educationalQualification['verified'];?></td>
-  			<td><?php echo $educationalQualification['howVerified'];?></td>
-  			<td class="actions">
-  				<?php echo $this->Html->link(__('Edit'), array('controller' => 'educational_qualifications', 'action' => 'edit', $educationalQualification['idEducationalQualifications'])); ?>
-  				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'educational_qualifications', 'action' => 'delete', $educationalQualification['idEducationalQualifications']), null, __('Are you sure you want to delete # %s?', $educationalQualification['idEducationalQualifications'])); ?>
+  			<td><?php echo $educationalQualification['Person']['forename1'];?></td>
+        <td><?php echo $educationalQualification['EducationalQualification']['qualificationType'];?> (<?php echo $educationalQualification['EducationalQualification']['yearObtained'];?>)</td>
+  			<td><?php echo $educationalQualification['EducationalQualification']['courseName'];?></td>
+  			<td><?php echo $educationalQualification['EducationLevel']['educationLevel'];?></td>
+  			<td><?php echo $educationalQualification['EducationalQualification']['mainSubject'];?></td>
+  			<td><?php echo $educationalQualification['EducationalQualification']['nameOfInstitutions'];?> (<?php echo $educationalQualification['EducationalQualification']['country'];?>)</td>  			<td class="actions">
+  				<?php echo $this->Html->link(__('Verify'), array('controller' => 'educational_qualifications', 'action' => 'admin_edit', $educationalQualification['EducationalQualification']['idEducationalQualifications'])); ?>
+  				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'educational_qualifications', 'action' => 'delete', $educationalQualification['EducationalQualification']['idEducationalQualifications']), null, __('Are you sure you want to delete # %s?', $educationalQualification['EducationalQualification']['idEducationalQualifications'])); ?>
   			</td>
   		</tr>
   	<?php endforeach; ?>
@@ -72,33 +60,25 @@
   	<h3><?php echo __('Professional Qualifications that need verification');?></h3>
   	<table cellpadding = "0" cellspacing = "0">
   	<tr>
-  		<th><?php echo __('Persons IdUser'); ?></th>
-  		<th><?php echo __('QualificationName'); ?></th>
-  		<th><?php echo __('Sectors IdSectors'); ?></th>
-  		<th><?php echo __('OtherSector'); ?></th>
-  		<th><?php echo __('AwardingBody'); ?></th>
-  		<th><?php echo __('YearObtained'); ?></th>
+  		<th>User</th>
+      <th>Qualification</th>
+  		<th>Sector</th>
+  		<th>Awarding body</th>
   		<th><?php echo __('Result'); ?></th>
-  		<th><?php echo __('Verified'); ?></th>
-  		<th><?php echo __('HowVerified'); ?></th>
   		<th class="actions"><?php echo __('Actions');?></th>
   	</tr>
   	<?php
   		$i = 0;
   		foreach ($professional_qualifications as $professionalQualification): ?>
   		<tr>
-  			<td><?php echo $professionalQualification['Persons_idUser'];?></td>
-  			<td><?php echo $professionalQualification['qualificationName'];?></td>
-  			<td><?php echo $professionalQualification['Sectors_idSectors'];?></td>
-  			<td><?php echo $professionalQualification['otherSector'];?></td>
-  			<td><?php echo $professionalQualification['awardingBody'];?></td>
-  			<td><?php echo $professionalQualification['yearObtained'];?></td>
-  			<td><?php echo $professionalQualification['result'];?></td>
-  			<td><?php echo $professionalQualification['verified'];?></td>
-  			<td><?php echo $professionalQualification['howVerified'];?></td>
+  			<td><?php echo $professionalQualification['Person']['forename1'];?></td>
+  			<td><?php echo $professionalQualification['ProfessionalQualification']['qualificationName'];?> (<?=($professionalQualification['ProfessionalQualification']['yearObtained'])?>)</td>
+  			<td><?php echo ($professionalQualification['Sector']['idSectors']) ? $professionalQualification['Sector']['sectorTitle'] : $professionalQualification['ProfessionalQualification']['otherSector'];?></td>
+  			<td><?php echo $professionalQualification['ProfessionalQualification']['awardingBody'];?></td>
+  			<td><?php echo $professionalQualification['ProfessionalQualification']['result'];?></td>
   			<td class="actions">
-  				<?php echo $this->Html->link(__('Edit'), array('controller' => 'professional_qualifications', 'action' => 'edit', $professionalQualification['idProfessionalQualifications'])); ?>
-  				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'professional_qualifications', 'action' => 'delete', $professionalQualification['idProfessionalQualifications']), null, __('Are you sure you want to delete # %s?', $professionalQualification['idProfessionalQualifications'])); ?>
+  				<?php echo $this->Html->link(__('Verify'), array('controller' => 'professional_qualifications', 'action' => 'admin_edit', $professionalQualification['ProfessionalQualification']['idProfessionalQualifications'])); ?>
+  				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'professional_qualifications', 'action' => 'delete', $professionalQualification['ProfessionalQualification']['idProfessionalQualifications']), null, __('Are you sure you want to delete # %s?', $professionalQualification['ProfessionalQualification']['idProfessionalQualifications'])); ?>
   			</td>
   		</tr>
   	<?php endforeach; ?>
@@ -116,35 +96,27 @@
   	<h3><?php echo __('Experiences that need verification');?></h3>
   	<table cellpadding = "0" cellspacing = "0">
   	<tr>
-  		<th><?php echo __('Persons IdUser'); ?></th>
-  		<th><?php echo __('DateStarted'); ?></th>
-  		<th><?php echo __('DateFinished'); ?></th>
-  		<th><?php echo __('JobTitles IdJobTitles'); ?></th>
-  		<th><?php echo __('OtherJobTitle'); ?></th>
-  		<th><?php echo __('KeyDuties'); ?></th>
-  		<th><?php echo __('EmploymentLevels IdLevelsOfEmployment'); ?></th>
-  		<th><?php echo __('EmployerName'); ?></th>
-  		<th><?php echo __('Verified'); ?></th>
-  		<th><?php echo __('HowVerified'); ?></th>
+  		<th>User</th>
+  		<th>Job</th>
+  		<th>Employment lvl</th>
+  		<th>Key duties</th> 
   		<th class="actions"><?php echo __('Actions');?></th>
   	</tr>
   	<?php
   		$i = 0;
   		foreach ($experiences as $experience): ?>
   		<tr>
-  			<td><?php echo $experience['Persons_idUser'];?></td>
-  			<td><?php echo $experience['dateStarted'];?></td>
-  			<td><?php echo $experience['dateFinished'];?></td>
-  			<td><?php echo $experience['JobTitles_idJobTitles'];?></td>
-  			<td><?php echo $experience['otherJobTitle'];?></td>
-  			<td><?php echo $experience['keyDuties'];?></td>
-  			<td><?php echo $experience['EmploymentLevels_idLevelsOfEmployment'];?></td>
-  			<td><?php echo $experience['employerName'];?></td>
-  			<td><?php echo $experience['verified'];?></td>
-  			<td><?php echo $experience['howVerified'];?></td>
+  		  <td><?=$experience['Person']['forename1']?></td>
+  			<td>
+  		  <?=($experience['Experience']['JobTitles_idJobTitles']) ? $experience['JobTitle']['jobTitle'] : $experience['Experience']['otherJobTitle'];?> at 
+  		  <?php echo $experience['Experience']['employerName'];?> 
+  		  (<?php echo $experience['Experience']['dateStarted'];?> to <?php echo $experience['Experience']['dateFinished'];?>)
+  		  </td>
+  			<td><?php echo $experience['EmploymentLevel']['employmentLevel'];?></td>
+  			<td><?php echo $experience['Experience']['keyDuties'];?></td>
   			<td class="actions">
-  				<?php echo $this->Html->link(__('Edit'), array('controller' => 'experiences', 'action' => 'edit', $experience['idExperiences'])); ?>
-  				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'experiences', 'action' => 'delete', $experience['idExperiences']), null, __('Are you sure you want to delete # %s?', $experience['idExperiences'])); ?>
+  				<?php echo $this->Html->link(__('Verify'), array('controller' => 'experiences', 'action' => 'admin_edit', $experience['Experience']['idExperiences'])); ?>
+  				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'experiences', 'action' => 'delete', $experience['Experience']['idExperiences']), null, __('Are you sure you want to delete # %s?', $experience['Experience']['idExperiences'])); ?>
   			</td>
   		</tr>
   	<?php endforeach; ?>
@@ -179,7 +151,7 @@
   			<td><?php echo $referee['Referee']['contactPhone'];?></td>
   			<td><?php echo $referee['Referee']['relationship'];?></td>
   			<td class="actions">
-  				<?php echo $this->Html->link(__('Edit'), array('controller' => 'referees', 'action' => 'edit', $referee['Referee']['idReferees'])); ?>
+  				<?php echo $this->Html->link(__('Verify'), array('controller' => 'referees', 'action' => 'admin_edit', $referee['Referee']['idReferees'])); ?>
   				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'referees', 'action' => 'delete', $referee['Referee']['idReferees']), null, __('Are you sure you want to delete # %s?', $referee['Referee']['idReferees'])); ?>
   			</td>
   		</tr>
@@ -213,7 +185,7 @@
   			<td><?php echo $skill['Skill']['skillName'];?></td>
   			<td><?php echo $skill['Skill']['skillLevel'];?></td>
   			<td class="actions">
-  				<?php echo $this->Html->link(__('Edit'), array('controller' => 'skills', 'action' => 'edit', $skill['Skill']['idSkills'])); ?>
+  				<?php echo $this->Html->link(__('Verify'), array('controller' => 'skills', 'action' => 'admin_edit', $skill['Skill']['idSkills'])); ?>
   				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'skills', 'action' => 'delete', $skill['Skill']['idSkills']), null, __('Are you sure you want to delete # %s?', $skill['Skill']['idSkills'])); ?>
   			</td>
   		</tr>

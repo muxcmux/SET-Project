@@ -1,9 +1,8 @@
-<div class="employmentLevels index">
 	<h2><?php echo __('Employment Levels');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('idLevelsOfEmployment');?></th>
-			<th><?php echo $this->Paginator->sort('employmentLevel');?></th>
+			<th><?php echo $this->Paginator->sort('idLevelsOfEmployment', 'Employment level ID');?></th>
+			<th><?php echo $this->Paginator->sort('employmentLevel', 'Employment Level');?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
@@ -13,7 +12,6 @@
 		<td><?php echo h($employmentLevel['EmploymentLevel']['idLevelsOfEmployment']); ?>&nbsp;</td>
 		<td><?php echo h($employmentLevel['EmploymentLevel']['employmentLevel']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $employmentLevel['EmploymentLevel']['idLevelsOfEmployment'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $employmentLevel['EmploymentLevel']['idLevelsOfEmployment'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $employmentLevel['EmploymentLevel']['idLevelsOfEmployment']), null, __('Are you sure you want to delete # %s?', $employmentLevel['EmploymentLevel']['idLevelsOfEmployment'])); ?>
 		</td>
@@ -34,12 +32,8 @@
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Employment Level'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Experiences'), array('controller' => 'experiences', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Experience'), array('controller' => 'experiences', 'action' => 'add')); ?> </li>
-	</ul>
 </div>

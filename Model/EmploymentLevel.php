@@ -26,6 +26,11 @@ class EmploymentLevel extends AppModel {
  *
  * @var array
  */
+ 
+	public $validate = array(
+	  'employmentLevel' => 'notEmpty'
+	);
+	
 	public $hasMany = array(
 		'Experience' => array(
 			'className' => 'Experience',

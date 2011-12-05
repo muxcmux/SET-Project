@@ -27,6 +27,9 @@ class ProfessionalQualification extends AppModel {
  *
  * @var array
  */
+  public $validate = array(
+    'qualificationName' => 'notEmpty'
+  );
 	public $belongsTo = array(
 		'Person' => array(
 			'className' => 'Person',

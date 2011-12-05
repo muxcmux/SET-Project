@@ -5,10 +5,10 @@
 	<?php
 		echo $this->Form->input('Persons_idUser', array('type' => 'hidden', 'value' => $this->Session->read('Auth.User.idUser')));
 		echo $this->Form->input('qualificationName');
-		echo $this->Form->input('Sectors_idSectors');
+		echo $this->Form->input('Sectors_idSectors', array('label' => 'Sector', 'options' => $sectors, 'empty' => '-- Other --'));
 		echo $this->Form->input('otherSector');
 		echo $this->Form->input('awardingBody');
-		echo $this->Form->input('yearObtained');
+		echo $this->Form->input('yearObtained', array('label' => 'Date obtained'));
 		echo $this->Form->input('result');
 	?>
 	</fieldset>
