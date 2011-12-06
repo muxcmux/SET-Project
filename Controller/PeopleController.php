@@ -1,4 +1,5 @@
 <?php
+require_once('../Vendor/dompdf/dompdf_config.inc.php');
 App::uses('AppController', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
 /**
@@ -10,7 +11,7 @@ class PeopleController extends AppController {
   
   public function beforeFilter() {
     parent::beforeFilter();
-    $this->Auth->allow(array('register', 'get_photo', 'view', 'print', 'contact'));
+    $this->Auth->allow(array('register', 'get_photo', 'view', 'print_cv', 'contact', 'to_pdf'));
   }
   
   public function register() {
@@ -157,7 +158,19 @@ class PeopleController extends AppController {
   }
   
   
-  
+  public function to_pdf($id = null) {
+    $this->Person->id = $id;
+    if (!$this->Person->exists()) {
+			throw new NotFoundException(__('Invalid person'));
+		}
+		$person = $this->Person->read(null, $id);
+    $this->autoRender = false;
+    
+    $dompdf = new DOMPDF();
+    $dompdf->load_html_file("http://set-project.dev/people/print_cv/$id");
+    $dompdf->render();
+    $dompdf->stream("{$person['Person']['forename1']}_CV.pdf");
+  }
   
   
   

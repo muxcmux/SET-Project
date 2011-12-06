@@ -40,7 +40,7 @@ $its_me = ($person['Person']['idUser'] == $this->Session->read('Auth.User.idUser
   <h3><?=$person['Person']['forename1']?>'s profile</h3>
 <?php endif; ?>
 <br>
-  <a class="register" target="_blank" href="/people/print_cv/<?=$person['Person']['idUser']?>">Print CV</a>
+  <a class="register" href="/people/to_pdf/<?=$person['Person']['idUser']?>">Download CV in PDF format</a>
   <?php if (!$its_me) :?>
     &nbsp;<a class="register" href="/people/contact/<?=$person['Person']['idUser']?>">Contact this person</a>
   <?php endif; ?>
